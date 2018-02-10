@@ -10,7 +10,7 @@ This work is licensed under a
 
 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
 
-![CC-BY-4.0 Logo](../img/cc-by-88x31.png)
+![CC-BY-4.0 Logo](../../img/cc-by-88x31.png)
 
 ---
 
@@ -37,13 +37,13 @@ This work is licensed under a
 
 # Data model
 
-![A Thing](img/AThing.svg)
+![A Thing](../img/AThing.svg)
 
 ---
 
 # RDF data model
 
-![A Thing with URIs](img/AThing2.svg)
+![A Thing with URIs](../img/AThing2.svg)
 
 ---
 
