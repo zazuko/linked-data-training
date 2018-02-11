@@ -17,6 +17,7 @@ This section provides links to several RDF related standards, mostly from W3C. T
 ## Free version online
 
 * Validating RDF, [Homepage](http://book.validatingrdf.com/): A book about SHACL and ShEx: Two approaches for validating RDF Data. Beside this the book provides a good intro to RDF in general.
+* [EUCLID](http://euclid-project.eu/) Linked Data training. Provides free resources & books for Linked Data training. Finaced within an EU project.
 
 ## Recommended additional books
 
@@ -33,3 +34,8 @@ This section provides links to several RDF related standards, mostly from W3C. T
 * C: [Redland RDF Libraries](http://librdf.org/)
 * PHP: [EasyRdf](http://www.easyrdf.org/) (Google for more)
 * Perl: [Perl and RDF](http://www.perlrdf.org/) & [Attean](https://github.com/kasei/attean)
+
+# Tools & Standards for transforming data to RDF
+
+* 
+
