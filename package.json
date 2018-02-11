@@ -1,10 +1,10 @@
 {
   "name": "linked-data-training",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Linked Data Training material",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "get-remark": "curl -L https://gnab.github.io/remark/downloads/remark-latest.min.js -o js/remark-latest.min.js"
   },
   "keywords": [
     "RDF",
@@ -13,8 +13,5 @@
     "Data"
   ],
   "author": "Adrian Gschwend, adrian.gschwend@zazuko.com",
-  "license": " CC-BY-SA-4.0",
-  "scripts": {
-    "get-remark": "curl -L https://gnab.github.io/remark/downloads/remark-latest.min.js -o js/remark-latest.min.js"
-  }
+  "license": " CC-BY-SA-4.0"
 }
