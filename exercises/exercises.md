@@ -18,7 +18,7 @@ In the introduction slides you saw that you can either have an URI as an object 
 
 If not done yet, use the following constructs to make the file easier to read
 
-* Relative IRIs using [prefixed names](https://www.w3.org/TR/turtle/#sec-iri) for vocabularies like schema.org. It is recommended to use the SPARQL version (the one without `@` in the beginning) so we can use the same prefix later in SPARQL.
+* Relative IRIs using [prefixed names](https://www.w3.org/TR/turtle/#sec-iri) for vocabularies like schema.org. It is recommended to use the SPARQL version (the one without `@` in the beginning) so we can use the same prefix later in SPARQL. Note that the SPARQL version is currently not supported in RDF Translator listed in the next chapter, you have to use the Turtle-syntax in that case.
 * Use the `BASE` definition to shortcut the URI of yourself
 
 ### Validation
@@ -118,19 +118,78 @@ In our `schema:Person` example we used links in the object to point to other per
 
 Following links is a typical pattern in Linked Data applications, it is often called "Follow your nose" as we simply follow links and discover more once we are at the new resource.
 
-### Todo
+### Querying other SPARQL endpoints
 
-* SERVICE
-* CONSTRUCT -> mit cleanup von refine
-* String split, bind etc für construct
-* Blank nodes
-* ASK
-* Multilang
-* Content-types (csv auch)
+One of the main concepts of Linked Data is to make sure that we do not duplicate data anymore everywhere, as it is mostly the case with other technologies. For that we will have to access data maintained by other groups sooner or later. Fortunately SPARQL has a `SERVICE` keyword that enables so called federated queries. Have a look at the [separate specification](https://www.w3.org/TR/sparql11-federated-query/) for it.
 
-## More languages
+For the next query, we want to use this functionality. We have the following two endpoints:
 
-Take your personal profile from before and make sure some Japanese, Russian, Thai oder whatever you can think of friends will be able to find you.
+**data.admin.ch**
+
+* SPARQL frontend: http://data.admin.ch/sparql/
+* SPARAL Endpoint: http://data.admin.ch/query
+* Graph: https://linked.opendata.swiss/graph/eCH-0071
+* Content: Historisiertet Gemeindeverzeichnis (Historicized Swiss Municipality Register)
+
+**ld.geo.admin.ch**
+
+* SPARQL frontend: https://ld.geo.admin.ch/sparql/
+
+
+* SPARQL Endpoint: https://ld.geo.admin.ch/query
+* Graph: none
+* Content: Some basic statistical information & WKT Shapes of the municipalities
+
+Task:
+
+* Use a Swiss Municipality as a starting point to understand the structure of the data. For example [Biel/Bienne](http://classifications.data.admin.ch/municipality/371).
+* Based on that municipality, try to find the URI for the municipality you live in (or any other municipality that is of interest to you).
+* In case there are multiple `gont:municipalityVersion` of it, try to find the latest one by using SPARQL only. If your own municipality does not have versions, use Biel/Bienne.
+* Use the `SERVICE` keyword to query the population of the municipality you selected in the ld.geo.admin.ch endpoint.
+* Bonus: Plot the population either for multiple municipalities or for all the years you can find. You might do that using the Google Chart Plugin in the SPARQL frontend or by using the  using D3 & [D3-SPARQL](https://github.com/zazuko/d3-sparql).
+
+### Supporting additional languages
+
+Fortunately RDF & SPARQL were specified after we figured out that it would make sense to support more than one language in applications & data. It is straight forward to add the same property in multiple languages and query it accordingly in SPARQL.
+
+* [Chapter 3.3](https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/#section-Graph-Literal) in the RDF 1.1 specification points to the [BCP47](https://tools.ietf.org/html/bcp47) RFC (something like W3C specifications but from an organisation called IETF). Can you find the correct language tags for:
+  * German
+  * German, Swiss edition
+  * French, Swiss edition
+  * Italian, Swiss edition
+  * Bonus: Swiss German dialect
+* Adjust your Turtle file with some additional properties in multiple languages. See the [RDF 1.1 Primer](https://www.w3.org/TR/turtle/#turtle-literals) for details, especially Example 11. If necessary just make up some additional triples that can easily be translated in additional languages.
+* Create a SPARQL query that filters the triples you just defined for a certain language. See the [langMatches](https://www.w3.org/TR/sparql11-query/#func-langMatches) function in SPARQL.
+
+### Bonus: Use Wikidata to get translations to many other languages
+
+Wikidata provides an endless amount of data about many different topics. Among others you will find most if not all Swiss municipalities in Wikidata. Fortunately the data.admin.ch dataset links to the corresponding URI in Wikidata.
+
+* Follow this URI and try to understand the basic Wikidata model. It is quite different to what you have seen so far. See the [Wikidata documentation](https://www.mediawiki.org/wiki/Wikidata_query_service/User_Manual#Basics_-_Understanding_Prefixes) for basics.
+* Try to find out what other languages are available for the municipalities. Try to create a query within Wikidata that filters out a particular language. Try something fun like Japanese, Russian or Thai.
+* Create a federated query (remember `SERVICE` keyword) to get the translation directly from the data.admin.ch SPARQL endpoint by using the Wikidata endpoint for translations.
+
+### Content-Types
+
+So far you either queried the data directly or used a web based SPARQL frontend. For using data in applications it might be useful to request a certain type of format of the results. For SPARQL SELECT queries, the following options are defined:
+
+* [TSV & CSV](https://www.w3.org/TR/sparql11-results-csv-tsv/)
+* [XML](http://www.w3.org/TR/rdf-sparql-XMLres/)
+* [JSON](http://www.w3.org/TR/sparql11-results-json/)
+
+You can query another format by specifying an appropriate `Accept`- header, for example by using curl:
+
+​    `curl -H "Accept: text/csv" —data-urlencode query@query-file.rq http://mysparqlqueryendpoint/query`
+
+Use one of the queries you created to get results in different formats back. Try to find the appropriate Accept mime-type in the specifications (search for media type, file type, content type or alike). If you do not have curl installed on your system, try it on a system of one of your peers.
+
+This does also work for RDF serialisations in general, try the same header on the [Biel/Bienne](Biel/Bienne) resource and request it as [Turtle](https://en.wikipedia.org/wiki/Turtle_(syntax)) or [JSON-LD.](https://en.wikipedia.org/wiki/JSON-LD) Check the media types in the Wikipedia page for both formats.
+
+### Check if a certain graph pattern exists
+
+Sometimes all you want to know is if a certain graph pattern exists in your data. What you would like to have back is a yes or a no, or in computer terms a true or a false. SPARQL implements that by using the [ASK](https://www.w3.org/TR/sparql11-query/#ask) keyword.
+
+* Take your Person profile and write a check that returns true, if a person has an email address and false, if there is no email address attached to the person.
 
 ## Converting data to RDF 🛀🏽
 
@@ -140,5 +199,23 @@ One of the well known tools for converting data to RDF is [OpenRefine](http://op
 
 It is recommended to use a release that ships OpenRefine with the RDF extension installed, as the current release of the RDF extension does not properly work with the latest OpenRefine version out of the box. You can get a recent build on [Github](https://github.com/stkenny/OpenRefine/releases).
 
-OpenRefine can do much more than just export RDF from tabular, XML and JSON data. But in our case we only focus on that functionality. If you are not part of a class you might want to read some [existing tutorials](http://dataplatform.co.uk/2015/07/13/turning-flat-data-into-semantic-data-with-open-refine-and-the-rdf-extension.html) about how to transform data to RDF. Within your class, the tutor should give a basic walkthrough. 
+OpenRefine can do much more than just export RDF from tabular, XML and JSON data. But in our case we only focus on that functionality. If you are not part of a class you might want to read some [existing tutorials](http://dataplatform.co.uk/2015/07/13/turning-flat-data-into-semantic-data-with-open-refine-and-the-rdf-extension.html) about how to transform data to RDF. Within your class, the tutor should give a basic walkthrough.
+
+### Improving the data
+
+As you noticed the data we converted is not perfect. There is a predicate in the data that contains many names, separated by comma. With the support of the whole class and your tutor we want to improve this dataset:
+
+* Each person should become its own resource (URI)
+* The main resource should point to this new URI
+* Bonus: Delete the old property with all the names in one string
+
+To get there, we need some advanced concepts in SPARQL, have a look at the specifications and work it out in the classroom:
+
+* [CONSTRUCT](https://www.w3.org/TR/sparql11-query/#construct): Returns a graph instead of a result set (we always used SELECT and got a list back so far)
+* [BIND](https://www.w3.org/TR/sparql11-query/#bind): Will be used to create a new string and in the end a new URI for the person object
+* [CONCAT](https://www.w3.org/TR/sparql11-query/#func-concat): To create a new string and combine it with some data from WHERE
+* [IRI](https://www.w3.org/TR/sparql11-query/#func-iri) and [ENCODE_FOR_IRI](https://www.w3.org/TR/sparql11-query/#func-encode) : To create a proper URI out of the string created above
+* [DELETE/INSERT](DELETE/INSERT) in the SPARQL Update Specification. That might a bit hardcore for some but it gives you an idea of how to update existing data in RDF as well.
+
+When everything goes right, we have a nicely built graph as a result of this cleanup procedure, not just key-value RDF.
 
