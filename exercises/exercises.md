@@ -127,15 +127,13 @@ For the next query, we want to use this functionality. We have the following two
 **data.admin.ch**
 
 * SPARQL frontend: http://data.admin.ch/sparql/
-* SPARAL Endpoint: http://data.admin.ch/query
+* SPARQL Endpoint: http://data.admin.ch/query
 * Graph: https://linked.opendata.swiss/graph/eCH-0071
 * Content: Historisiertet Gemeindeverzeichnis (Historicized Swiss Municipality Register)
 
 **ld.geo.admin.ch**
 
 * SPARQL frontend: https://ld.geo.admin.ch/sparql/
-
-
 * SPARQL Endpoint: https://ld.geo.admin.ch/query
 * Graph: none
 * Content: Some basic statistical information & WKT Shapes of the municipalities
