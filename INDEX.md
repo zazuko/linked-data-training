@@ -31,6 +31,11 @@
     * [Tram](http://lod.opentransportdata.swiss/stationtype/Tram)
     * [Funicular](http://lod.opentransportdata.swiss/stationtype/Funicular)
 * Wikidata: [Get airport codes, labels & location](https://t.co/gyWQ7MRzL6)
+* GeoSPARQL
+    * [Entrypoint graph & observations](https://goo.gl/d79MGy)
+    * [Example temperature prediction](https://goo.gl/SmXjoJ) 
+    * [GeoSPARQL spec](http://www.opengeospatial.org/standards/geosparql)
+    * Documentation in [Stardog Triplestore](https://www.stardog.com/docs/#_geospatial_query)
 
 ### Other examples
 
