@@ -1,6 +1,6 @@
 {
   "name": "linked-data-training",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Linked Data Training material",
   "main": "index.js",
   "scripts": {
