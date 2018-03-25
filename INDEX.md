@@ -8,9 +8,9 @@
 * [SPARQL](SPARQL/index.html)
 * [Ontologies](Ontologies/index.html)
 
-## References
+## References & other resources
 
-* [References]()
+* [Resources](https://github.com/zazuko/linked-data-training/blob/master/exercises/Resources.md)
 
 ## Exercises
 
