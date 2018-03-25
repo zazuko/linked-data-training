@@ -10,7 +10,7 @@
 
 ## References & other resources
 
-* [Resources](https://github.com/zazuko/linked-data-training/blob/master/exercises/Resources.md)
+* [Resources](https://github.com/zazuko/linked-data-training/blob/master/Resources.md)
 
 ## Exercises
 
