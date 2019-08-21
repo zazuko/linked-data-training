@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trifid
+  name: linked-data-training
 spec:
   template:
     spec:
@@ -22,9 +22,6 @@ spec:
           limits:
             cpu: 200m
             memory: 30Mi
-
-        securityContext:
-          readOnlyRootFilesystem: true
 
         livenessProbe:
           initialDelaySeconds: 5
