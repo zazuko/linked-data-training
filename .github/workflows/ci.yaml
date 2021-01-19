@@ -1,0 +1,69 @@
+name: Build and push Docker image and deploy it on Kubernetes
+
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker meta
+        uses: zazuko/action-docker-meta@main
+        id: docker_meta
+        with:
+          images: docker.io/zazuko/linked-data-training
+
+      - name: Build and push Docker images
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs:
+      - docker
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set Kubernetes context
+        uses: azure/k8s-set-context@v1
+        with:
+          method: service-account
+          k8s-url: ${{ secrets.K8S_URL }}
+          k8s-secret: ${{ secrets.K8S_SECRET }}
+
+      - name: Run Kubernetes tools
+        run: |
+          cd k8s/
+          kustomize edit set image "docker.io/zazuko/linked-data-training:pipeline-${GITHUB_RUN_ID}"
+          kustomize build | tee manifest.yaml
+          kubectl apply -f manifest.yaml
