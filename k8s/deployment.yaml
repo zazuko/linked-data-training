@@ -6,31 +6,31 @@ spec:
   template:
     spec:
       containers:
-      - name: linked-data-training
-        image: linked-data-training
-        imagePullPolicy: Always
+        - name: linked-data-training
+          image: linked-data-training
+          imagePullPolicy: Always
 
-        ports:
-        - name: http
-          containerPort: 80
-          protocol: TCP
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
 
-        resources:
-          requests:
-            cpu: 100m
-            memory: 10Mi
-          limits:
-            cpu: 200m
-            memory: 30Mi
+          resources:
+            requests:
+              cpu: 100m
+              memory: 10Mi
+            limits:
+              cpu: 200m
+              memory: 30Mi
 
-        livenessProbe:
-          initialDelaySeconds: 5
-          httpGet:
-            port: 80
-            path: /
+          livenessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              port: 80
+              path: /
 
-        readinessProbe:
-          initialDelaySeconds: 5
-          httpGet:
-            port: 80
-            path: /
+          readinessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              port: 80
+              path: /

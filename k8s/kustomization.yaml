@@ -1,12 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: linked-data-training
+
 commonLabels:
   app.kubernetes.io/name: linked-data-training
 
 resources:
-- deployment.yaml
-- service.yaml
-- ingress.yaml
-
-namespace: linked-data-training
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

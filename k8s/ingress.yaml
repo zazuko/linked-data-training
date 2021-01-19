@@ -7,14 +7,14 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: linked-data-training-zazuko-com.zazukoians.org
 spec:
   tls:
-  - secretName: linked-data-training-zazuko-com-cert
-    hosts:
-    - linked-data-training.zazuko.com
+    - secretName: linked-data-training-zazuko-com-cert
+      hosts:
+        - linked-data-training.zazuko.com
   rules:
-  - host: linked-data-training.zazuko.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: linked-data-training
-          servicePort: 80
+    - host: linked-data-training.zazuko.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: linked-data-training
+              servicePort: 80
