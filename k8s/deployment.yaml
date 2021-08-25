@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
         - name: linked-data-training
-          image: docker.io/zazuko/linked-data-training
+          image: ghcr.io/zazuko/linked-data-training
           imagePullPolicy: Always
 
           ports:
